@@ -7,13 +7,39 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<script type="text/x-handlebars">
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li>{{#linkTo index}}Index{{/linkTo}}</li>
+    <li>{{#linkTo create}}Create{{/linkTo}}</li>
+  </ul>
+  {{outlet}}
+</div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+<ul class="thumbnails">
+{{#each controller}}
+  <li class="span3">
+    <div class="thumbnail">
+      <img {{bindAttr src="picture"}}/>
+      <div class="caption">
+        <h3>{{name}}</h3>
+        <button {{action deleteKitten this}}>Delete</button>
+        {{#linkTo edit this}}Edit{{/linkTo}}
+      </div>
+    </div>
+  </li>
+{{/each}}
+</ul>
+</script>
+
+
 <script src="js/libs/jquery-1.10.2.js"></script>
 <script src="js/libs/handlebars-v1.3.0.js"></script>
 <script src="js/libs/ember-1.8.1.js"></script>
 <script src="js/libs/ember-data.js"></script>
 <script src="js/app.js"></script>
-<script type="text/x-handlebars">
-  <h1>hello Ember.js!</h1>
-</script>
 </body>
 </html>

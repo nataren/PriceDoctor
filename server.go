@@ -11,7 +11,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"kittens": [
       {"id": 1, "name": "Bobby", "picture": "http://placekitten.com/g/200/300"},
       {"id": 2, "name": "Wally", "picture": "http://placekitten.com/g/200/400"}
-  ]}`))
+	]}`))
 }
 
 func main() {
