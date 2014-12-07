@@ -2,39 +2,36 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Ember.js + Go == ♥</title>
+  <title>PriceDoctor</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<script type="text/x-handlebars">
-<div class="container">
-  <ul class="nav nav-tabs">
-    <li>{{#linkTo index}}Index{{/linkTo}}</li>
-    <li>{{#linkTo create}}Create{{/linkTo}}</li>
-  </ul>
-  {{outlet}}
-</div>
+<script type="text/x-handlebars" data-template-name="application">
+<header>
+  <h2>PriceDoctor</h2>
+</header>
+  <form {{action "search" on="submit"}}>
+    {{input value=queryField}}
+    <input type="submit" value="Search"/>
+  </form>
+  
+  {{#if query}}
+  <p>Displaying results for "{{query}}"</p>
+  <table>
+    {{#each}}
+    <tr>
+      <td><h3>{{name}}</h3></td>
+      <td class="span3"><img {{bind-attr src="picture"}}/></td>
+    </tr>
+    {{/each}}
+  </table>
+  {{/if}}
+<footer>
+  &copy; Made with ♥ by Natarén Inc
+</footer>
 </script>
-
-<script type="text/x-handlebars" data-template-name="index">
-<ul class="thumbnails">
-{{#each controller}}
-  <li class="span3">
-    <div class="thumbnail">
-      <img {{bindAttr src="picture"}}/>
-      <div class="caption">
-        <h3>{{name}}</h3>
-        <button {{action deleteKitten this}}>Delete</button>
-        {{#linkTo edit this}}Edit{{/linkTo}}
-      </div>
-    </div>
-  </li>
-{{/each}}
-</ul>
-</script>
-
 
 <script src="js/libs/jquery-1.10.2.js"></script>
 <script src="js/libs/handlebars-v1.3.0.js"></script>
@@ -43,3 +40,4 @@
 <script src="js/app.js"></script>
 </body>
 </html>
+

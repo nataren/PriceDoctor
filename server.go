@@ -8,7 +8,7 @@ import (
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(`{"kittens": [
+	w.Write([]byte(`{ "healthproviders": [
       {"id": 1, "name": "Bobby", "picture": "http://placekitten.com/g/200/300"},
       {"id": 2, "name": "Wally", "picture": "http://placekitten.com/g/200/400"}
 	]}`))
@@ -18,8 +18,8 @@ func main() {
 	log.Println("Starting server")
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/kittens", SearchHandler).Methods("GET")
-	http.Handle("/api/", r)
+	r.HandleFunc("/@api/healthproviders", SearchHandler).Methods("GET")
+	http.Handle("/@api/", r)
 
 	// Server public assets
 	http.Handle("/", http.FileServer(http.Dir("./public/")))

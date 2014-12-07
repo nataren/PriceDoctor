@@ -1,23 +1,35 @@
-App = Ember.Application.create();
-
-DS.Store.create({
-    revision: 12,
-    adapter: DS.RESTAdapter.create({
-        namespace: 'api'
-    })
+API = "http://localhost:8080/@api/"
+App = Ember.Application.create({
+    LOG_TRANSITIONS: true
 });
 
-App.Router.map(function() {
-  // put your routes here
+App.ApplicationController = Ember.ArrayController.extend({
+    queryParams: ['query'],
+    query: null,
+    
+    queryField: Ember.computed.oneWay('query'),
+    actions: {
+        search: function() {
+            this.set('query', this.get('queryField'));
+        }
+    }
 });
 
-App.Kitten = DS.Model.extend({
-    name: DS.attr('string'),
-    picture: DS.attr('string')
-});
-
-App.IndexRoute = Ember.Route.extend({
-    model: function() {
-        return App.Kitten.find();
+App.ApplicationRoute = Ember.Route.extend({
+    queryParams: {
+        query: {
+            // Opt into full transition
+            refreshModel: true
+        }
+    },
+    
+    model: function(params) {
+        if(!params.query) {
+            return []; // no results;
+        }
+        var url = API + "healthproviders";
+        return Ember.$.getJSON(url + "?address=" + params.query).then(function(data) {
+            return data.healthproviders
+        });
     }
 });
