@@ -4,13 +4,16 @@ App = Ember.Application.create({
 });
 
 App.ApplicationController = Ember.ArrayController.extend({
-    queryParams: ['query'],
+    queryParams: ['query', 'miles'],
     query: null,
+    miles: null,
     
     queryField: Ember.computed.oneWay('query'),
+    milesField: Ember.computed.oneWay('miles'),
     actions: {
         search: function() {
             this.set('query', this.get('queryField'));
+            this.set('miles', 100 /* this.get('milesField') */);
         }
     }
 });
@@ -20,6 +23,9 @@ App.ApplicationRoute = Ember.Route.extend({
         query: {
             // Opt into full transition
             refreshModel: true
+        },
+        miles: {
+            refreshModel: true
         }
     },
     
@@ -28,7 +34,7 @@ App.ApplicationRoute = Ember.Route.extend({
             return []; // no results;
         }
         var url = API + "healthproviders";
-        return Ember.$.getJSON(url + "?address=" + params.query).then(function(data) {
+        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles).then(function(data) {
             return data.healthproviders
         });
     }
