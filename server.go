@@ -100,16 +100,16 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(bytes.NewReader(body))
 	var esResponse ElasticSearchResponse
 	decoder.Decode(&esResponse)
-	providersHits := make([]HealthProvider, len(esResponse.Hits.Hits))
+	providers := make([]HealthProvider, len(esResponse.Hits.Hits))
 	for i, hit := range esResponse.Hits.Hits {
-		providerHits[i] = hit
+		providers[i] = hit.Provider
 	}
-	hits, err := json.Marshal(esResponse.Hits.Hits)
+	serializedProviders, err := json.Marshal(providers)
 	if err != nil {
-		http.Error(w, "There was an error marshaling the hits array", http.StatusInternalServerError)
+		http.Error(w, "There was an error marshaling the providers to JSON", http.StatusInternalServerError)
 		return
 	}
-	w.Write(providerHits)
+	w.Write(serializedProviders)
 }
 
 func main() {
