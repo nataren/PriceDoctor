@@ -13,8 +13,8 @@
   <h2>PriceDoctor</h2>
 </header>
   <form {{action "search" on="submit"}}>
-    {{input name="Address" value=queryField}}
-    {{input value=procedureField}}
+    {{ input name="Address" value=queryField }}
+    {{ input value=procedureField }}
     <input type="submit" value="Search"/>
   </form>
   {{#if query}}
