@@ -7,7 +7,7 @@ App.ApplicationController = Ember.ArrayController.extend({
     queryParams: ['query', 'miles'],
     query: null,
     miles: null,
-    
+
     queryField: Ember.computed.oneWay('query'),
     milesField: Ember.computed.oneWay('miles'),
     actions: {
@@ -28,13 +28,13 @@ App.ApplicationRoute = Ember.Route.extend({
             refreshModel: true
         }
     },
-    
+
     model: function(params) {
         if(!params.query) {
             return []; // no results;
         }
         var url = API + "healthproviders";
-        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles).then(function(data) {
+        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=debridement").then(function(data) {
             return data.healthproviders
         });
     }
