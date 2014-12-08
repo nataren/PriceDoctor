@@ -13,7 +13,8 @@
   <h2>PriceDoctor</h2>
 </header>
   <form {{action "search" on="submit"}}>
-    {{input value=queryField}}
+    {{input name="Address" value=queryField}}
+    {{input value=procedureField}}
     <input type="submit" value="Search"/>
   </form>
   {{#if query}}
@@ -21,8 +22,9 @@
   <table>
     {{#each}}
     <tr>
-      <td><h3>{{name}}</h3></td>
-      <td class="span3"><img {{bind-attr src="picture"}}/></td>
+      <td>${{averageestimatedsubmittedcharges}}</td>
+      <td>{{providername}}</td>
+      <td>{{apc}}</td>
     </tr>
     {{/each}}
   </table>
