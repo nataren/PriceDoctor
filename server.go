@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"fmt"
 	"bytes"
@@ -12,6 +13,25 @@ import (
 	"github.com/kellydunn/golang-geo"
 //	"github.com/olivere/elastic"
 )
+
+type ElasticSearchHit struct {
+	Index string `json:"_index"`
+	Type string `json:"_type"`
+	Score float64 `json:"_score"`
+	Provider HealthProvider `json:"_source"`
+}
+
+type ElasticSearchHits struct {
+	Total uint32 `json:"total"`
+	MaxScore float64 `json:"max_score"`
+	Hits []ElasticSearchHit `json:"hits"`
+}
+
+type ElasticSearchResponse struct {
+	Timedout bool `json:"timed_out"`
+	Took uint32 `json:"took"`
+	Hits ElasticSearchHits `json:"hits"`
+}
 
 type HealthProvider struct {
 	APC string `json:"apc"` // The service
@@ -57,7 +77,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Could not find geo code for %s", address)
 		w.Write([]byte(`{ "healthproviders": []}`))
-		return 
+		return
 	}
 	log.Printf("The geocode for '%s' is '%f,%f'", address, geocode.Lat(), geocode.Lng())
 
@@ -77,8 +97,15 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Got a response of size %d from ES", len(body))
-	log.Printf(string(body))
-	w.Write(body)
+	decoder := json.NewDecoder(bytes.NewReader(body))
+	var esResponse ElasticSearchResponse
+	decoder.Decode(&esResponse)
+	hits, err := json.Marshal(esResponse.Hits.Hits)
+	if err != nil {
+		http.Error(w, "There was an error marshaling the hits array", http.StatusInternalServerError)
+		return
+	}
+	w.Write(hits)
 }
 
 func main() {
