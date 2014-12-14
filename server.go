@@ -88,8 +88,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("The geocode for '%s' is '%f,%f'", address, geocode.Lat(), geocode.Lng())
 
 	// Search for the given values
-	// TODO: transform miles to km
-	query := fmt.Sprintf(`{"query":{"filtered":{"query":{"match":{"apc":"%s"}}, "filter":{"geo_distance":{"distance":"%skm", "service.gpslocation":"%f, %f"}}}},"sort":[{"averageestimatedsubmittedcharges" : { "order" : "asc" } }]}`, procedure, miles, geocode.Lat(), geocode.Lng())
+	query := fmt.Sprintf(`{"from": 0, "size": 100, "query":{"filtered":{"query":{"match":{"apc":"%s"}}, "filter":{"geo_distance":{"distance":"%smi", "service.gpslocation":"%f, %f"}}}},
+	"sort":[{"averageestimatedsubmittedcharges" : { "order" : "asc" } }]}`, procedure, miles, geocode.Lat(), geocode.Lng())
 	log.Printf("query: %s", query)
 	results, err := restsearcher.Post("http://localhost:9200/healthadvisor/service/_search", "application/x-www-form-urlencoded", bytes.NewBufferString(query))
 	if err != nil {
@@ -154,6 +154,6 @@ func main() {
 	// Server public assets
 	http.Handle("/", http.FileServer(http.Dir("./public/")))
 
-	log.Println("Listing on port 8080")
+	log.Println("Listening on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
