@@ -1,56 +1,57 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"fmt"
 	"bytes"
-//	"net/url"
-	"net/http"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	//	"net/url"
 	"flag"
-	"log"
 	"github.com/gorilla/mux"
 	"github.com/kellydunn/golang-geo"
-//	"github.com/olivere/elastic"
+	"log"
+	"net/http"
+	//	"github.com/olivere/elastic"
 )
 
 type ElasticSearchHit struct {
-	Index string `json:"_index"`
-	Type string `json:"_type"`
-	Score float64 `json:"_score"`
+	Index    string         `json:"_index"`
+	Type     string         `json:"_type"`
+	Score    float64        `json:"_score"`
 	Provider HealthProvider `json:"_source"`
 }
 
 type ElasticSearchHits struct {
-	Total uint32 `json:"total"`
-	MaxScore float64 `json:"max_score"`
-	Hits []ElasticSearchHit `json:"hits"`
+	Total    uint32             `json:"total"`
+	MaxScore float64            `json:"max_score"`
+	Hits     []ElasticSearchHit `json:"hits"`
 }
 
 type ElasticSearchResponse struct {
-	Timedout bool `json:"timed_out"`
-	Took uint32 `json:"took"`
-	Hits ElasticSearchHits `json:"hits"`
+	Timedout bool              `json:"timed_out"`
+	Took     uint32            `json:"took"`
+	Hits     ElasticSearchHits `json:"hits"`
 }
 
 type HealthProvider struct {
-	APC string `json:"apc"` // The service
-	ProviderId string `json:"providerid"`
-	ProviderName string `json:"providername"`
-	ProviderStreetAddress string `json:"providerstreetaddress"`
-	ProviderCity string `json:"providercity"`
-	ProviderState string `json:"providerstate"`
-	ProviderZipCode string `json:"providerzipcode"`
-	ProviderHRR string `json:"providerhrr"` // HRR = Hospital Referral Region
-	OutpatientServices int64 `json:"outpatientservices"`
+	APC                              string  `json:"apc"` // The service
+	ProviderId                       string  `json:"providerid"`
+	ProviderName                     string  `json:"providername"`
+	ProviderStreetAddress            string  `json:"providerstreetaddress"`
+	ProviderCity                     string  `json:"providercity"`
+	ProviderState                    string  `json:"providerstate"`
+	ProviderZipCode                  string  `json:"providerzipcode"`
+	ProviderHRR                      string  `json:"providerhrr"` // HRR = Hospital Referral Region
+	OutpatientServices               int64   `json:"outpatientservices"`
 	AverageEstimatedSubmittedCharges float64 `json:"averageestimatedsubmittedcharges"`
-	AverageTotalPayments float64 `json:"averagetotalpayments"`
-	GpsLocation string `json:"gpslocation"`
+	AverageTotalPayments             float64 `json:"averagetotalpayments"`
+	GpsLocation                      string  `json:"gpslocation"`
 }
 
 // var searcher elastic.Client
 var restsearcher *http.Client
 var geocoder *geo.GoogleGeocoder
+
 // var hostnameAndPort string
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -124,24 +125,23 @@ func main() {
 		log.Println("No searchHostname provided, will exit")
 		return
 	}
-	if searchPort ==  "" {
+	if searchPort == "" {
 		log.Println("No searchPort provided, will exit")
 		return
 	}
 	// Setting up the HTTP server
 	log.Println("Starting HTTP server")
-//	hostnameAndPort := fmt.Sprintf("%s:%s", searchHostname, searchPort)
+	//	hostnameAndPort := fmt.Sprintf("%s:%s", searchHostname, searchPort)
 
-
-/*
-	searcher, err := elastic.NewClient(http.DefaultClient, hostnameAndPort)
-	if err != nil {
-		log.Printf("Could not connect to ES: %s", err)
-		return
-	}
-*/
-	restsearcher = &http.Client {}
-    geocoder = &geo.GoogleGeocoder {}
+	/*
+		searcher, err := elastic.NewClient(http.DefaultClient, hostnameAndPort)
+		if err != nil {
+			log.Printf("Could not connect to ES: %s", err)
+			return
+		}
+	*/
+	restsearcher = &http.Client{}
+	geocoder = &geo.GoogleGeocoder{}
 	r := mux.NewRouter()
 	r.HandleFunc("/@api/healthproviders", SearchHandler).Methods("GET")
 	http.Handle("/@api/", r)
