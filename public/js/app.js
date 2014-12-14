@@ -9,10 +9,12 @@ App.ApplicationController = Ember.ArrayController.extend({
     miles: null,
     procedure: null,
     distance: [5, 10, 25, 50, 100, 250, 500],
+    sortBy: ["price"],
 
     queryField: Ember.computed.oneWay('query'),
     milesField: Ember.computed.oneWay('miles'),
     procedureField: Ember.computed.oneWay('procedure'),
+    sortByField: Ember.computed.oneWay('sortBy'),
     actions: {
         search: function() {
             this.set('query', this.get('queryField'));
@@ -34,7 +36,7 @@ App.ApplicationRoute = Ember.Route.extend({
         procedure: {
             refreshModel: true
         },
-        miles: {
+        sortBy: {
             refreshModel: true
         }
     },
@@ -44,7 +46,7 @@ App.ApplicationRoute = Ember.Route.extend({
             return []; // no results;
         }
         var url = API + "healthproviders";
-        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure).then(function(data) {
+        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure + "&sortby=" + params.sortBy).then(function(data) {
             return data
         });
     }

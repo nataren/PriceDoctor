@@ -15,7 +15,8 @@
   <form {{action "search" on="submit"}}>
     {{ input name="Address" value=queryField }}
     {{ input name="Procedure" value=procedureField }}
-    {{ view "select" name="Miles" content=distance value=milesField}}
+    {{ view "select" name="Miles" content=distance value=milesField }}
+    {{ view "select" name="SortBy" content=sortBy value=sortByField }}
     <input type="submit" value="Search"/>
   </form>
   {{#if query}}

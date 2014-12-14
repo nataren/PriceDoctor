@@ -60,6 +60,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	address := queryParams.Get("address")
 	miles := queryParams.Get("miles")
 	procedure := queryParams.Get("procedure")
+	sortBy := queryParams.Get("sortby")
 	if address == "" {
 		http.Error(w, "The required 'address' query parameter was not present", http.StatusBadRequest)
 		return
@@ -70,6 +71,10 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if miles == "" {
 		http.Error(w, "The required 'miles' query parameter was not present", http.StatusBadRequest)
+		return
+	}
+	if sortBy == "" {
+		http.Error(w, "The required 'sortby' query parameter was not present", http.StatusBadRequest)
 		return
 	}
 	log.Printf("address: %s, procedure: %s, miles: %s", address, procedure, miles)
@@ -84,7 +89,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Search for the given values
 	// TODO: transform miles to km
-	query := fmt.Sprintf(`{"query":{"filtered":{"query":{"match":{"apc":"%s"}}, "filter":{"geo_distance":{"distance":"100km", "service.gpslocation":"%f, %f"}}}}}`, procedure, geocode.Lat(), geocode.Lng())
+	query := fmt.Sprintf(`{"query":{"filtered":{"query":{"match":{"apc":"%s"}}, "filter":{"geo_distance":{"distance":"%skm", "service.gpslocation":"%f, %f"}}}},"sort":[{"averageestimatedsubmittedcharges" : { "order" : "asc" } }]}`, procedure, miles, geocode.Lat(), geocode.Lng())
 	log.Printf("query: %s", query)
 	results, err := restsearcher.Post("http://localhost:9200/healthadvisor/service/_search", "application/x-www-form-urlencoded", bytes.NewBufferString(query))
 	if err != nil {
