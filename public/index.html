@@ -14,11 +14,11 @@
 </header>
   <form {{action "search" on="submit"}}>
     {{ input name="Address" value=queryField }}
-    {{ input value=procedureField }}
+    {{ input name="Procedure" value=procedureField }}
     <input type="submit" value="Search"/>
   </form>
   {{#if query}}
-  <p>Displaying results for "{{query}}"</p>
+  <p>Displaying results for address "{{query}}" and procedure "{{procedure}}" within a 100 miles radius</p>
   <table>
     {{#each}}
     <tr>
@@ -26,6 +26,8 @@
       <td>{{providername}}</td>
       <td>{{apc}}</td>
     </tr>
+    {{else}}
+      <tr><td>No results found</td></tr>
     {{/each}}
   </table>
   {{/if}}

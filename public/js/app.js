@@ -16,7 +16,7 @@ App.ApplicationController = Ember.ArrayController.extend({
         search: function() {
             this.set('query', this.get('queryField'));
             this.set('miles', 100 /* this.get('milesField') */);
-            this.set('procedure', this.get('procedureField'))
+            this.set('procedure', this.get('procedureField'));
         }
     }
 });
@@ -28,6 +28,9 @@ App.ApplicationRoute = Ember.Route.extend({
             refreshModel: true
         },
         miles: {
+            refreshModel: true
+        },
+        procedure: {
             refreshModel: true
         }
     },
