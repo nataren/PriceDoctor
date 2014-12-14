@@ -8,6 +8,7 @@ App.ApplicationController = Ember.ArrayController.extend({
     query: null,
     miles: null,
     procedure: null,
+    distance: [5, 10, 25, 50, 100, 250, 500],
 
     queryField: Ember.computed.oneWay('query'),
     milesField: Ember.computed.oneWay('miles'),
@@ -15,7 +16,7 @@ App.ApplicationController = Ember.ArrayController.extend({
     actions: {
         search: function() {
             this.set('query', this.get('queryField'));
-            this.set('miles', 100 /* this.get('milesField') */);
+            this.set('miles', this.get('milesField'));
             this.set('procedure', this.get('procedureField'));
         }
     }
@@ -31,6 +32,9 @@ App.ApplicationRoute = Ember.Route.extend({
             refreshModel: true
         },
         procedure: {
+            refreshModel: true
+        },
+        miles: {
             refreshModel: true
         }
     },

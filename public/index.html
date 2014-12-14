@@ -15,10 +15,11 @@
   <form {{action "search" on="submit"}}>
     {{ input name="Address" value=queryField }}
     {{ input name="Procedure" value=procedureField }}
+    {{ view "select" name="Miles" content=distance value=milesField}}
     <input type="submit" value="Search"/>
   </form>
   {{#if query}}
-  <p>Displaying results for address "{{query}}" and procedure "{{procedure}}" within a 100 miles radius</p>
+  <p>Displaying results for address "{{query}}" and procedure "{{procedure}}" within a {{miles}} miles radius</p>
   <table>
     {{#each}}
     <tr>
