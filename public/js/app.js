@@ -1,4 +1,3 @@
-API = "https://fast-river-8223.herokuapp.com/@api/"
 App = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
@@ -45,8 +44,7 @@ App.ApplicationRoute = Ember.Route.extend({
         if(!params.query) {
             return []; // no results;
         }
-        var url = API + "healthproviders";
-        return Ember.$.getJSON(url + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure + "&sortby=" + params.sortBy).then(function(data) {
+        return Ember.$.getJSON("healthproviders" + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure + "&sortby=" + params.sortBy).then(function(data) {
             return data
         });
     }
