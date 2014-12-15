@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	//	"net/url"
-	"flag"
 	"github.com/gorilla/mux"
 	"github.com/kellydunn/golang-geo"
 	"log"
