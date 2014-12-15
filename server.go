@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	//	"github.com/olivere/elastic"
+	"os"
 )
 
 type ElasticSearchHit struct {
@@ -153,7 +154,10 @@ func main() {
 
 	// Server public assets
 	http.Handle("/", http.FileServer(http.Dir("./public/")))
-
-	log.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Printf("Listening on port %s", port)
+	http.ListenAndServe(":"+port, nil)
 }
