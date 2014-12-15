@@ -1,3 +1,4 @@
+API = "@api/"
 App = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
@@ -44,7 +45,7 @@ App.ApplicationRoute = Ember.Route.extend({
         if(!params.query) {
             return []; // no results;
         }
-        return Ember.$.getJSON("healthproviders" + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure + "&sortby=" + params.sortBy).then(function(data) {
+        return Ember.$.getJSON(API + "healthproviders" + "?address=" + params.query + "&" + "miles=" + params.miles + "&procedure=" + params.procedure + "&sortby=" + params.sortBy).then(function(data) {
             return data
         });
     }
