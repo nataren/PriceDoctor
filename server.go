@@ -49,6 +49,8 @@ type HealthProvider struct {
 }
 
 // var searcher elastic.Client
+var searchHostname string
+var searchPort string
 var restsearcher *http.Client
 var geocoder *geo.GoogleGeocoder
 
@@ -91,8 +93,9 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	query := fmt.Sprintf(`{"from": 0, "size": 100, "query":{"filtered":{"query":{"match":{"apc":"%s"}}, "filter":{"geo_distance":{"distance":"%smi", "service.gpslocation":"%f, %f"}}}},
 	"sort":[{"averageestimatedsubmittedcharges" : { "order" : "asc" } }]}`, procedure, miles, geocode.Lat(), geocode.Lng())
 	log.Printf("query: %s", query)
-	results, err := restsearcher.Post("http://localhost:9200/healthadvisor/service/_search", "application/x-www-form-urlencoded", bytes.NewBufferString(query))
+	results, err := restsearcher.Post(searchHostname + ":" + searchPort +"/healthadvisor/service/_search", "application/x-www-form-urlencoded", bytes.NewBufferString(query))
 	if err != nil {
+		log.Printf("There was an error talking to the search engine: %s", err)
 		http.Error(w, "There was an error talking to the search engine", http.StatusInternalServerError)
 		return
 	}
@@ -120,8 +123,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Read configuration parameters
-	searchHostname := os.Getenv("ES_HOSTNAME")
-	searchPort := os.Getenv("ES_PORT")
+	searchHostname = os.Getenv("ES_HOSTNAME")
+	searchPort = os.Getenv("ES_PORT")
 	// Validate configuration parameters
 	if searchHostname == "" {
 		log.Println("No searchHostname provided, will exit")
