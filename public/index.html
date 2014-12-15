@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
   <title>PriceDoctor</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8">
+  <meta name="author" content="César López-Natarén" />
+  <meta name="robots" content="all" />
+  <meta name="description" content="Find the best priced health care provider for you" />
 </head>
 <body>
 
@@ -12,17 +15,20 @@
 <header>
   <h2>PriceDoctor</h2>
 </header>
-  <form {{action "search" on="submit"}}>
-    {{ input name="Address" value=queryField }}
-    {{ input name="Procedure" value=procedureField }}
-    {{ view "select" name="Miles" content=distance value=milesField }}
-    <input type="submit" value="Search"/>
-  </form>
-  {{#if query}}
-  <p>Displaying results for address "{{query}}" and procedure "{{procedure}}" within a {{miles}} miles radius</p>
+<form {{action "search" on="submit"}}>
+  <label>Procedure:</label>
+  {{ input name="Procedure" value=procedureField }}
+  <label>Close to:
+  {{ input name="Address" value=queryField }}
+  <label>Miles away:</label>
+  {{ view "select" name="Miles" content=distance value=milesField }}
+  <input type="submit" value="Search"/>
+</form>
+{{#if query}}
+<p>Displaying results for address "{{query}}" and procedure "{{procedure}}" within a {{miles}} miles radius</p>
   <table>
     {{#each}}
-    <tr>
+  <tr>
       <td>${{averageestimatedsubmittedcharges}}</td>
       <td>{{providername}}</td>
       <td>{{apc}}</td>
