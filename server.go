@@ -121,11 +121,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Read configuration parameters
-	var searchHostname string
-	var searchPort string
-	flag.StringVar(&searchHostname, "search-hostname", "", "The search engine's hostname")
-	flag.StringVar(&searchPort, "search-port", "", "The search engine's port")
-	flag.Parse()
+	searchHostname := os.Getenv("ES_HOSTNAME")
+	searchPort := os.Getenv("ES_PORT")
 	// Validate configuration parameters
 	if searchHostname == "" {
 		log.Println("No searchHostname provided, will exit")
