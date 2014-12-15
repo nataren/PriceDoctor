@@ -1,4 +1,4 @@
-API = "http://localhost:8080/@api/"
+API = "https://fast-river-8223.herokuapp.com/@api/"
 App = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
