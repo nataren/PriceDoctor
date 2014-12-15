@@ -1,0 +1,47 @@
+{
+	"ImportPath": "github.com/nataren/PriceDoctor",
+	"GoVersion": "go1.3.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/erikstmartin/go-testdb",
+			"Rev": "0d8025c327297078b762c23beff4265955235002"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "50c25fb3b2b3b3cc724e9b6ac75fb44b3bccd0da"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "e444e69cbd2e2e3e0749a2f3c717cec491552bbf"
+		},
+		{
+			"ImportPath": "github.com/kellydunn/golang-geo",
+			"Comment": "v0.4.1",
+			"Rev": "33e35920353836b629d6dc3c2ebf11b1d3716cc2"
+		},
+		{
+			"ImportPath": "github.com/kylelemons/go-gypsy/yaml",
+			"Comment": "go.weekly.2011-11-02-19-g42fc2c7",
+			"Rev": "42fc2c7ee9b8bd0ff636cd2d7a8c0a49491044c5"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "dc911180b321e9b7e08aa94f20939ef0109b9b24"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/godrv",
+			"Comment": "v1.5.3-21-g261574e",
+			"Rev": "261574e2f4a9d9d2d81a8f996105c8c835bfe19b"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/mysql",
+			"Comment": "v1.5.3-21-g261574e",
+			"Rev": "261574e2f4a9d9d2d81a8f996105c8c835bfe19b"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/native",
+			"Comment": "v1.5.3-21-g261574e",
+			"Rev": "261574e2f4a9d9d2d81a8f996105c8c835bfe19b"
+		}
+	]
+}
